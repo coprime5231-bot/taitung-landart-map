@@ -44,41 +44,52 @@
   .sec{display:flex;align-items:center;gap:8px;margin:18px 4px 12px;font-size:17px;font-weight:900;}
   .sec .d{width:10px;height:10px;border-radius:50%;}
 
-  .card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);margin-bottom:14px;
-    border:2px solid #fff;overflow:hidden;display:flex;align-items:center;}
-  /* 左側大圖：完整顯示、不裁切 */
-  .card .ph{flex:0 0 60%;align-self:stretch;position:relative;background:#f3ece1;
-    display:flex;align-items:center;justify-content:center;min-height:150px;}
-  .card .ph .photo{width:100%;height:auto;display:block;}
-  .card .ph .num{position:absolute;top:8px;left:8px;z-index:2;width:30px;height:30px;border-radius:50%;
-    display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;font-family:sans-serif;
+  /* 卡片：統一大小、左欄固定尺寸 */
+  .card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);margin-bottom:12px;
+    border:2px solid #fff;overflow:hidden;display:flex;align-items:stretch;min-height:116px;}
+  .card .ph{flex:0 0 40%;position:relative;background:#f3ece1;overflow:hidden;}
+  .card .ph .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .card .ph .num{position:absolute;top:7px;left:7px;z-index:2;width:27px;height:27px;border-radius:50%;
+    display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;font-family:sans-serif;
     box-shadow:0 2px 6px rgba(0,0,0,.3);border:2px solid #fff;}
-  .card .ph.noimg{background:linear-gradient(135deg,#eaf5dc,#dbeec6);flex-direction:column;gap:9px;}
-  .card .ph.noimg .ico{font-size:44px;opacity:.55;}
-  .card .ph .pbtn{background:rgba(255,255,255,.95);border-radius:999px;padding:6px 14px;font-size:12.5px;
-    font-weight:700;color:var(--ink);text-decoration:none;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.15);}
-  /* 右側文字窄欄 */
-  .card .body{flex:1;padding:12px 13px;min-width:0;}
+  /* 資訊卡的分類圖示磚（無照片） */
+  .card .ph.info{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+  .card .ph.info.food{background:linear-gradient(135deg,#ffe2c4,#ffc59a);}
+  .card .ph.info.stay{background:linear-gradient(135deg,#d4ebfb,#aed8f6);}
+  .card .ph.info.spot{background:linear-gradient(135deg,#e0f0cb,#c5e4a0);}
+  .card .ph.info .bigicon{font-size:40px;line-height:1;}
+  .card .ph.info .ttag{font-size:11px;font-weight:800;color:#6f5436;background:rgba(255,255,255,.78);
+    border-radius:999px;padding:2px 9px;}
+
+  .card .body{flex:1;padding:11px 13px;min-width:0;display:flex;flex-direction:column;justify-content:center;}
   .card .tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px;}
   .axis{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;}
   .axis.C{background:var(--coastbg);color:var(--coast);}
   .axis.V{background:var(--valleybg);color:#5a8f33;}
+  .cat{font-size:11px;font-weight:800;border-radius:999px;padding:2px 9px;}
+  .cat.food{background:#ffe6d0;color:#d2691e;}
+  .cat.stay{background:#d9ecfb;color:#2f7fb8;}
+  .cat.spot{background:#e4f1d2;color:#5a8f33;}
   .new{font-size:10.5px;font-weight:800;background:#ffe0d3;color:#e8551f;border-radius:999px;padding:2px 7px;}
   .yr{font-size:11px;color:var(--ink2);font-weight:600;}
-  .card h3{font-size:16px;font-weight:900;margin:1px 0 2px;line-height:1.35;}
+  .card h3{font-size:15.5px;font-weight:900;margin:1px 0 2px;line-height:1.35;}
   .card .art{font-size:12px;color:var(--ink2);}
   .card .town{font-size:12.5px;color:var(--ink);font-weight:700;margin-top:3px;}
+  .card .acts{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;}
   .card .nav{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:12px;font-weight:700;
-    color:#fff;border-radius:999px;padding:5px 11px;margin-top:7px;box-shadow:0 4px 9px rgba(0,0,0,.12);}
+    color:#fff;border-radius:999px;padding:5px 11px;box-shadow:0 4px 9px rgba(0,0,0,.12);}
+  .card .src{display:inline-flex;align-items:center;gap:3px;text-decoration:none;font-size:11.5px;font-weight:700;
+    color:var(--ink2);background:#fff;border:1.5px solid #e7d6c2;border-radius:999px;padding:5px 10px;}
+  .card .src:hover{background:#fbf3e8;}
   .card .del{display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-family:inherit;
     font-size:12px;font-weight:700;color:#c75b4a;background:#fff;border:1.5px solid #f0c2b8;
-    border-radius:999px;padding:5px 11px;margin:7px 0 0 7px;}
+    border-radius:999px;padding:5px 11px;}
   .card .del:hover{background:#fdeeea;}
 
   /* 收合狀態：只剩標題 + 取消鈕 */
   .card .collapsed-view{display:none;}
-  .card.collapsed{align-items:center;padding:12px 14px;}
-  .card.collapsed .num,.card.collapsed .ph,.card.collapsed .body{display:none;}
+  .card.collapsed{align-items:center;padding:12px 14px;min-height:0;}
+  .card.collapsed .ph,.card.collapsed .body{display:none;}
   .card.collapsed .collapsed-view{display:flex;flex:1;align-items:center;justify-content:space-between;gap:10px;}
   .card .cv-title{font-size:14.5px;font-weight:900;color:var(--ink2);min-width:0;}
   .card .cv-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle;}
@@ -99,17 +110,18 @@
   <div class="hero">
     <div class="kicker">🎨 台東大地藝術・自駕地圖</div>
     <h1>兩天・海岸 × 縱谷</h1>
-    <p>第一天跑海岸線、第二天跑縱谷線 · 精選 16 件 ✨</p>
+    <p>第一天海岸線、第二天縱谷線 · 含景點・美食・住宿 ✨</p>
     <div class="legend">
-      <span><i style="background:var(--coast)"></i>🌊 海岸線（台11）</span>
-      <span><i style="background:var(--valley)"></i>🌾 縱谷線（197）</span>
+      <span><i style="background:var(--coast)"></i>🌊 海岸</span>
+      <span><i style="background:var(--valley)"></i>🌾 縱谷</span>
+      <span><i style="background:#e8a35c"></i>🍽 吃住玩</span>
     </div>
-    <div class="stat"><b>📍 共 16 件</b><b>🗺 一鍵 Google 導航</b><b>🚗 兩天兩條路線</b></div>
+    <div class="stat"><b>📍 共 22 站</b><b>🗺 一鍵 Google 導航</b><b>🚗 兩天兩條路線</b></div>
   </div>
 
   <div class="tabs">
-    <button class="tab coast active" data-tab="coast" onclick="render('coast')">🌊 第一天・海岸<small>由南而北 · 11 件</small></button>
-    <button class="tab valley" data-tab="valley" onclick="render('valley')">🌾 第二天・縱谷<small>由北而南 · 5 件</small></button>
+    <button class="tab coast active" data-tab="coast" onclick="render('coast')">🌊 第一天・海岸<small>由南而北 · 15 站</small></button>
+    <button class="tab valley" data-tab="valley" onclick="render('valley')">🌾 第二天・縱谷<small>由北而南 · 7 站</small></button>
   </div>
 
   <div class="sec"><span class="d" id="secdot"></span><span id="sectitle"></span></div>
@@ -117,21 +129,20 @@
 
   <div class="note">
     💛 <b>資料與誠實提醒：</b>
-    本清單來自<b>東海岸大地藝術節官方作品資料</b>＋<b>縱谷漂鳥197官方作品資料</b>（名稱標「損毀／移除／暫不開放」者已剔除）。<br>
-    • <b>照片</b>：海岸線為東海岸大地藝術節官方照片（需連網顯示）；縱谷線為「萬物糧倉・大地慶典」官方作品照片（已存進本站）。<br>
-    • <b>座標</b>：海岸線為官方精確座標；縱谷線部分為地標概略位置。<br>
-    • 大地藝術仍可能因天候隨時受損，出發前可對照官方即時地圖。
+    作品來自<b>東海岸大地藝術節</b>＋<b>縱谷漂鳥197</b>官方資料；吃住玩資訊卡為你指定加入。<br>
+    • <b>照片</b>：海岸作品為官方照片（需連網）；縱谷作品為「萬物糧倉・大地慶典」官方照片；吃住玩用分類圖示，點「導航／連結」看詳情。<br>
+    • 大地藝術可能因天候受損，出發前可對照官方即時資訊；店家營業時間請先確認。
   </div>
 
   <footer>
     用 ♥ 為你的台東小旅行整理<br>
-    資料來源：<a href="https://www.eastcoast-nsa.gov.tw/teclandart/zh-tw/artwork/artwork-map" target="_blank">東海岸大地藝術節・作品地圖</a>　|　<a href="https://www.pioneeringeastriftvalleygranaryfestivities.com.tw/" target="_blank">縱谷大地藝術季・漂鳥197</a><br>
+    資料來源：<a href="https://www.eastcoast-nsa.gov.tw/teclandart/zh-tw/artwork/artwork-map" target="_blank">東海岸大地藝術節</a>　|　<a href="https://www.pioneeringeastriftvalleygranaryfestivities.com.tw/" target="_blank">縱谷大地藝術季・漂鳥197</a><br>
     祝旅途順順、天氣晴晴 ☀️🚗💨
   </footer>
 </div>
 
 <script>
-// [name, artist, town, axis(C/V), lat, lng, img, year(null), isNew]
+// 作品 [name, artist, town, axis(C/V), lat, lng, img, year(null), isNew]
 const D = [
 ["faki的背影","安聖惠（峨冷‧魯魯安）","長濱鄉・寧埔","C",23.2483,121.4180,"91195",2025,false],
 ["Ｗadihan迴響","Sandor Zelenak","成功鎮","C",23.2079,121.3973,"91050",2025,false],
@@ -151,53 +162,69 @@ const D = [
 ["潮水坐下來了","希巨‧蘇飛 & Alvaro Trugeda","東河鄉・都蘭","C",22.8634,121.2063,"74873",null,false]
 ];
 
-const COAST="#3a9bd0", VALLEY="#7bb24a";
-const imgUrl = id => "https://www.eastcoast-nsa.gov.tw/teclandart/image/"+id+"/640x480";
-// 本機圖檔（縱谷官方照片）走相對路徑；海岸線用數字 id 走官方 API
-const photoSrc = s => s.indexOf("/")>=0 ? s : imgUrl(s);
-const navUrl = (la,ln) => "https://www.google.com/maps/search/?api=1&query="+la+","+ln;
-const picUrl = n => "https://www.google.com/search?tbm=isch&q="+encodeURIComponent(n+" 縱谷大地藝術季 台東");
-
-// 兩天的清單：海岸由南而北（緯度小→大）、縱谷由北而南（緯度大→小）
-const TABS = {
-  coast:  D.filter(w=>w[3]==="C").sort((a,b)=>a[4]-b[4]),
-  valley: D.filter(w=>w[3]==="V").sort((a,b)=>b[4]-a[4])
+// 資訊卡（吃住玩）
+const INFO = {
+  taimali:{type:'spot',n:'太麻里福興宮',town:'太麻里鄉',icon:'🛕',cat:'景點',sub:'全台唯一招財貓土地公廟',url:'https://supertaste.tvbs.com.tw/travel/353562',link:'看介紹'},
+  aniu:   {type:'food',n:'阿牛冠軍牛肉麵',town:'台東市',icon:'🍜',cat:'美食',sub:'三屆台北牛肉麵清燉組冠軍',url:'https://curly.com.tw/aniu/',link:'看介紹'},
+  dingyi: {type:'stay',n:'丁一的家',town:'成功鎮',icon:'🏨',cat:'住宿',sub:'三仙台旁海景民宿',url:'http://www.sunmotel.com.tw/',link:'官網'},
+  shark:  {type:'food',n:'鯊魚黑幫餐廳 成功店',town:'成功鎮',icon:'🍽',cat:'美食',sub:'成功漁港海鮮料理',url:'https://share.google/ctMDIUVXK7OvyMrLQ',link:'看地圖'},
+  brown:  {type:'spot',n:'伯朗大道',town:'池上鄉',icon:'🌾',cat:'景點',sub:'金城武樹・縱谷稻浪大道',la:23.0988,ln:121.2130,url:'https://maps.app.goo.gl/eGiu4ZyroYbjheoT7',link:'看地圖'},
+  chulu:  {type:'spot',n:'初鹿牧場',town:'卑南鄉',icon:'🐄',cat:'景點',sub:'高山草原・鮮乳冰淇淋',la:22.8658,ln:121.1084,url:'https://maps.app.goo.gl/5XuNJpiLFCdcTpCQ6',link:'看地圖'}
 };
 
+const COAST="#3a9bd0", VALLEY="#7bb24a";
+const imgUrl = id => "https://www.eastcoast-nsa.gov.tw/teclandart/image/"+id+"/640x480";
+const photoSrc = s => s.indexOf("/")>=0 ? s : imgUrl(s);
+const navUrl = (la,ln) => "https://www.google.com/maps/search/?api=1&query="+la+","+ln;
+const navName = q => "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+
+// 作品（位置陣列）轉成通用物件
+const A = w => ({type:'art', n:w[0], sub:w[1], town:w[2], axis:w[3], la:w[4], ln:w[5], img:w[6], yr:w[7], isNew:w[8]});
+const artCoast  = D.filter(w=>w[3]==="C").sort((a,b)=>a[4]-b[4]).map(A); // 由南而北
+const artValley = D.filter(w=>w[3]==="V").sort((a,b)=>b[4]-a[4]).map(A); // 由北而南
+
+// 第一天・海岸：資訊卡固定位置（首二張 + 末二張）
+const coastList = [ INFO.taimali, INFO.aniu, ...artCoast, INFO.dingyi, INFO.shark ];
+// 第二天・縱谷：景點與作品依緯度由北而南一起排
+const valleyList = [ ...artValley, INFO.brown, INFO.chulu ].sort((a,b)=> b.la - a.la);
+
+const TABS = { coast: coastList, valley: valleyList };
 const list = document.getElementById('list');
 
 function render(tab){
   const items = TABS[tab];
   const color = tab==="coast" ? COAST : VALLEY;
 
-  // ---- 清單 ----
-  list.innerHTML = items.map((w,i)=>{
-    const [n,a,town,axis,la,ln,img,yr,isNew]=w;
-    const ph = img
-      ? `<div class="ph"><span class="num" style="background:${color}">${i+1}</span><img class="photo" src="${photoSrc(img)}" alt="${n}" loading="lazy"></div>`
-      : `<div class="ph noimg"><span class="num" style="background:${color}">${i+1}</span><span class="ico">🎨</span><a class="pbtn" href="${picUrl(n)}" target="_blank">📷 看照片</a></div>`;
+  list.innerHTML = items.map((it,i)=>{
+    const isArt = it.type==='art';
+    const ph = isArt
+      ? `<div class="ph"><span class="num" style="background:${color}">${i+1}</span><img class="photo" src="${photoSrc(it.img)}" alt="${it.n}" loading="lazy"></div>`
+      : `<div class="ph info ${it.type}"><span class="num" style="background:${color}">${i+1}</span><span class="bigicon">${it.icon}</span><span class="ttag">${it.cat}</span></div>`;
+    const tag = isArt
+      ? `<span class="axis ${it.axis}">${it.axis==="C"?"🌊 海岸":"🌾 縱谷"}</span>${it.isNew?'<span class="new">✨ 2026新作</span>':''}${it.yr?`<span class="yr">${it.yr}</span>`:''}`
+      : `<span class="cat ${it.type}">${it.icon} ${it.cat}</span>`;
+    const nav = (isArt || it.la) ? navUrl(it.la,it.ln) : navName(it.n+" "+it.town);
+    const src = (!isArt && it.link) ? `<a class="src" href="${it.url}" target="_blank">🔗 ${it.link}</a>` : '';
     return `<div class="card" id="card-${i}">
       ${ph}
       <div class="body">
-        <div class="tags">
-          <span class="axis ${axis}">${axis==="C"?"🌊 海岸":"🌾 縱谷"}</span>
-          ${isNew?'<span class="new">✨ 2026新作</span>':''}
-          ${yr?`<span class="yr">${yr}</span>`:''}
+        <div class="tags">${tag}</div>
+        <h3>${it.n}</h3>
+        <div class="art">${it.sub}</div>
+        <div class="town">📍 ${it.town}</div>
+        <div class="acts">
+          <a class="nav" style="background:${color}" href="${nav}" target="_blank">🗺 導航</a>
+          ${src}
+          <button class="del" onclick="collapse(${i})">🗑 刪除</button>
         </div>
-        <h3>${n}</h3>
-        <div class="art">${a}</div>
-        <div class="town">📍 ${town}</div>
-        <a class="nav" style="background:${color}" href="${navUrl(la,ln)}" target="_blank">🗺 導航</a>
-        <button class="del" onclick="collapse(${i})">🗑 刪除</button>
       </div>
       <div class="collapsed-view">
-        <span class="cv-title"><span class="cv-dot" style="background:${color}"></span>${i+1}. ${n}</span>
+        <span class="cv-title"><span class="cv-dot" style="background:${color}"></span>${i+1}. ${it.n}</span>
         <button class="restore" onclick="restore(${i})">取消</button>
       </div>
     </div>`;
   }).join('');
 
-  // ---- 區段標題 + 分頁狀態 ----
   document.getElementById('sectitle').textContent =
     tab==="coast" ? "第一天・海岸線（由南 ⬆ 而北）" : "第二天・縱谷線（由北 ⬇ 而南）";
   document.getElementById('secdot').style.background = color;
