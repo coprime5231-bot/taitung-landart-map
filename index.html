@@ -6,7 +6,6 @@
 <title>🎨 台東大地藝術・兩天自駕地圖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
   :root{
     --cream:#fff7ec;--ink:#5a4632;--ink2:#8a7560;
@@ -42,13 +41,7 @@
   .tab.coast.active{background:var(--coast);border-color:var(--coast);}
   .tab.valley.active{background:#6aa83f;border-color:#6aa83f;}
 
-  #map{height:430px;border-radius:22px;margin:10px 0 16px;box-shadow:var(--shadow);border:3px solid #fff;}
-  .leaflet-div-icon{background:transparent;border:none;}
-  .pin{width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
-    display:grid;place-items:center;box-shadow:0 3px 6px rgba(0,0,0,.35);border:2px solid #fff;}
-  .pin b{transform:rotate(45deg);color:#fff;font-size:12.5px;font-weight:900;font-family:sans-serif;}
-
-  .sec{display:flex;align-items:center;gap:8px;margin:20px 4px 12px;font-size:17px;font-weight:900;}
+  .sec{display:flex;align-items:center;gap:8px;margin:18px 4px 12px;font-size:17px;font-weight:900;}
   .sec .d{width:10px;height:10px;border-radius:50%;}
 
   .card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);margin-bottom:14px;
@@ -111,18 +104,12 @@
       <span><i style="background:var(--coast)"></i>🌊 海岸線（台11）</span>
       <span><i style="background:var(--valley)"></i>🌾 縱谷線（197）</span>
     </div>
-    <div class="stat"><b>📍 共 16 件</b><b>🗺 點編號可導航</b><b>🚗 兩天兩條路線</b></div>
+    <div class="stat"><b>📍 共 16 件</b><b>🗺 一鍵 Google 導航</b><b>🚗 兩天兩條路線</b></div>
   </div>
 
   <div class="tabs">
     <button class="tab coast active" data-tab="coast" onclick="render('coast')">🌊 第一天・海岸<small>由南而北 · 11 件</small></button>
     <button class="tab valley" data-tab="valley" onclick="render('valley')">🌾 第二天・縱谷<small>由北而南 · 5 件</small></button>
-  </div>
-
-  <div id="map"></div>
-
-  <div class="note" style="margin-top:0">
-    🧭 <b>怎麼用：</b>上方切換<b>【第一天・海岸】</b>和<b>【第二天・縱谷】</b>兩個分頁。每天的編號 <b>1→N 就是當天的建議順序</b>，點地圖編號或卡片「導航」就能直接帶路。第一天海岸線<b>由南往北</b>、第二天縱谷線<b>由北往南</b>。
   </div>
 
   <div class="sec"><span class="d" id="secdot"></span><span id="sectitle"></span></div>
@@ -143,7 +130,6 @@
   </footer>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // [name, artist, town, axis(C/V), lat, lng, img, year(null), isNew]
 const D = [
@@ -178,27 +164,11 @@ const TABS = {
   valley: D.filter(w=>w[3]==="V").sort((a,b)=>b[4]-a[4])
 };
 
-const map = L.map('map',{scrollWheelZoom:false}).setView([23.05,121.30],10);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  maxZoom:18, attribution:'© OpenStreetMap'}).addTo(map);
-const markers = L.layerGroup().addTo(map);
 const list = document.getElementById('list');
 
 function render(tab){
   const items = TABS[tab];
   const color = tab==="coast" ? COAST : VALLEY;
-
-  // ---- 地圖（只顯示當天的點）----
-  markers.clearLayers();
-  const bounds=[];
-  items.forEach((w,i)=>{
-    const icon = L.divIcon({html:`<div class="pin" style="background:${color}"><b>${i+1}</b></div>`,
-      iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-26]});
-    L.marker([w[4],w[5]],{icon}).addTo(markers)
-     .bindPopup(`<b>${i+1}. ${w[0]}</b><br>${w[2]}`);
-    bounds.push([w[4],w[5]]);
-  });
-  if(bounds.length) map.fitBounds(bounds,{padding:[30,30]});
 
   // ---- 清單 ----
   list.innerHTML = items.map((w,i)=>{
