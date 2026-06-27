@@ -62,6 +62,21 @@
   .card .town{font-size:12.5px;color:var(--ink);font-weight:700;margin-top:3px;}
   .card .nav{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:12px;font-weight:700;
     color:#fff;border-radius:999px;padding:5px 11px;margin-top:7px;box-shadow:0 4px 9px rgba(0,0,0,.12);}
+  .card .del{display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-family:inherit;
+    font-size:12px;font-weight:700;color:#c75b4a;background:#fff;border:1.5px solid #f0c2b8;
+    border-radius:999px;padding:5px 11px;margin:7px 0 0 7px;}
+  .card .del:hover{background:#fdeeea;}
+
+  /* 收合狀態：只剩標題 + 取消鈕 */
+  .card .collapsed-view{display:none;}
+  .card.collapsed{align-items:center;padding:12px 14px;}
+  .card.collapsed .num,.card.collapsed .ph,.card.collapsed .body{display:none;}
+  .card.collapsed .collapsed-view{display:flex;flex:1;align-items:center;justify-content:space-between;gap:10px;}
+  .card .cv-title{font-size:14.5px;font-weight:900;color:var(--ink2);min-width:0;}
+  .card .cv-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle;}
+  .card .restore{cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:var(--ink);
+    background:#fff6ea;border:1.5px solid #f0c9a8;border-radius:999px;padding:5px 13px;white-space:nowrap;}
+  .card .restore:hover{background:#ffeccf;}
 
   .note{background:#fffbe9;border:1.5px dashed #e9cf8a;border-radius:16px;padding:13px 15px;
     font-size:12.5px;color:#9a7a3a;margin-top:16px;line-height:1.7;}
@@ -171,7 +186,7 @@ list.innerHTML = D.map((w,i)=>{
   const ph = img
     ? `<div class="ph" style="background-image:url('${imgUrl(img)}')"></div>`
     : `<div class="ph noimg"><span class="ico">🎨</span><a class="pbtn" href="${picUrl(n)}" target="_blank">📷 看照片</a></div>`;
-  return `<div class="card">
+  return `<div class="card" id="card-${i}">
     <div class="num" style="background:${color}">${i+1}</div>
     ${ph}
     <div class="body">
@@ -184,9 +199,18 @@ list.innerHTML = D.map((w,i)=>{
       <div class="art">${a}</div>
       <div class="town">📍 ${town}</div>
       <a class="nav" style="background:${color}" href="${navUrl(la,ln)}" target="_blank">🗺 導航</a>
+      <button class="del" onclick="collapse(${i})">🗑 刪除</button>
+    </div>
+    <div class="collapsed-view">
+      <span class="cv-title"><span class="cv-dot" style="background:${color}"></span>${i+1}. ${n}</span>
+      <button class="restore" onclick="restore(${i})">取消</button>
     </div>
   </div>`;
 }).join('');
+
+// ---- 刪除（收合）/ 取消（復原）----
+function collapse(i){ document.getElementById('card-'+i).classList.add('collapsed'); }
+function restore(i){ document.getElementById('card-'+i).classList.remove('collapsed'); }
 </script>
 </body>
 </html>
