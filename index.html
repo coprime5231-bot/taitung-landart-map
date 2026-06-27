@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎨 台東大地藝術地圖・縱谷×海岸 精選29件</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  :root{
+    --cream:#fff7ec;--ink:#5a4632;--ink2:#8a7560;
+    --coast:#3a9bd0;--coastbg:#e3f2fb;
+    --valley:#7bb24a;--valleybg:#eaf5dc;
+    --peach:#ff8a5b;--yolk:#ffd166;--card:#fffdfa;
+    --shadow:0 10px 26px rgba(150,110,70,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Noto Sans TC',-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink);background:linear-gradient(160deg,#fff7ec,#fdeede 55%,#eef5e6);line-height:1.7;}
+  .wrap{max-width:560px;margin:0 auto;padding:16px 14px 60px;}
+
+  .hero{background:linear-gradient(135deg,#fff,#fff4e3);border-radius:26px;padding:22px 20px;
+    text-align:center;box-shadow:var(--shadow);border:2px solid #fff;position:relative;overflow:hidden;}
+  .hero .kicker{font-size:12.5px;letter-spacing:2px;color:var(--peach);font-weight:700;}
+  .hero h1{font-size:24px;font-weight:900;margin:6px 0 4px;letter-spacing:.5px;}
+  .hero p{font-size:13px;color:var(--ink2);}
+  .legend{display:flex;gap:14px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;}
+  .legend i{width:16px;height:16px;border-radius:50%;display:inline-block;}
+  .stat{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;}
+  .stat b{background:#fff6ea;border:1.5px dashed #f0c9a8;border-radius:999px;padding:4px 11px;
+    font-size:12px;color:var(--ink2);font-weight:600;}
+
+  #map{height:430px;border-radius:22px;margin:16px 0;box-shadow:var(--shadow);border:3px solid #fff;}
+  .leaflet-div-icon{background:transparent;border:none;}
+  .pin{width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+    display:grid;place-items:center;box-shadow:0 3px 6px rgba(0,0,0,.35);border:2px solid #fff;}
+  .pin b{transform:rotate(45deg);color:#fff;font-size:12.5px;font-weight:900;font-family:sans-serif;}
+
+  .sec{display:flex;align-items:center;gap:8px;margin:24px 4px 12px;font-size:17px;font-weight:900;}
+  .sec .d{width:10px;height:10px;border-radius:50%;}
+
+  .card{background:var(--card);border-radius:20px;box-shadow:var(--shadow);margin-bottom:13px;
+    border:2px solid #fff;overflow:hidden;display:flex;}
+  .card .num{flex:0 0 42px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:18px;font-family:sans-serif;}
+  .card .ph{flex:0 0 96px;background:#eee center/cover no-repeat;position:relative;min-height:118px;}
+  .card .ph.noimg{background:linear-gradient(135deg,#eaf5dc,#dbeec6);display:grid;place-items:center;}
+  .card .ph .pbtn{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);
+    background:rgba(255,255,255,.92);border-radius:999px;padding:3px 9px;font-size:11px;font-weight:700;
+    color:var(--ink);text-decoration:none;white-space:nowrap;box-shadow:0 2px 5px rgba(0,0,0,.15);}
+  .card .ph.noimg .ico{font-size:30px;opacity:.5;}
+  .card .body{flex:1;padding:10px 12px;min-width:0;}
+  .card .tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px;}
+  .axis{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;}
+  .axis.C{background:var(--coastbg);color:var(--coast);}
+  .axis.V{background:var(--valleybg);color:#5a8f33;}
+  .new{font-size:10.5px;font-weight:800;background:#ffe0d3;color:#e8551f;border-radius:999px;padding:2px 7px;}
+  .yr{font-size:11px;color:var(--ink2);font-weight:600;}
+  .card h3{font-size:16px;font-weight:900;margin:1px 0 2px;line-height:1.35;}
+  .card .art{font-size:12px;color:var(--ink2);}
+  .card .town{font-size:12.5px;color:var(--ink);font-weight:700;margin-top:3px;}
+  .card .nav{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-size:12px;font-weight:700;
+    color:#fff;border-radius:999px;padding:5px 11px;margin-top:7px;box-shadow:0 4px 9px rgba(0,0,0,.12);}
+
+  .note{background:#fffbe9;border:1.5px dashed #e9cf8a;border-radius:16px;padding:13px 15px;
+    font-size:12.5px;color:#9a7a3a;margin-top:16px;line-height:1.7;}
+  .note b{color:#cf7a1f;}
+  footer{text-align:center;margin-top:22px;font-size:11px;color:var(--ink2);line-height:1.8;}
+  footer a{color:var(--valley);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">🎨 台東大地藝術・自駕地圖</div>
+    <h1>縱谷 × 海岸　精選 29 件</h1>
+    <p>由北而南・已剔除颱風損毀作品・含 2026 最新作 ✨</p>
+    <div class="legend">
+      <span><i style="background:var(--valley)"></i>🌾 縱谷線（197）</span>
+      <span><i style="background:var(--coast)"></i>🌊 海岸線（台11）</span>
+    </div>
+    <div class="stat"><b>📍 29 個點</b><b>🗺 點編號可導航</b><b>🏞 兩條平行路線</b></div>
+  </div>
+
+  <div id="map"></div>
+
+  <div class="note" style="margin-top:0">
+    🧭 <b>怎麼用：</b>編號 <b>1→29 是整個台東由北到南</b>的順序。🌊海岸線（台11）和🌾縱谷線（197）是<b>兩條平行的路</b>，建議<b>分開各跑一條</b>（中間隔著海岸山脈、車程約 1～1.5 小時）。地圖上藍點＝海岸、綠點＝縱谷，點編號或下方卡片的「導航」就能直接帶路。
+  </div>
+
+  <div class="sec"><span class="d" style="background:var(--peach)"></span>作品清單（由北 ⬇ 而南）</div>
+  <div id="list"></div>
+
+  <div class="note">
+    💛 <b>資料與誠實提醒：</b>
+    本清單來自<b>東海岸大地藝術節官方作品資料</b>（含官方照片、座標；名稱標「損毀／移除」者已自動剔除）＋<b>縱谷漂鳥197官方 Google 作品地圖</b>（標「暫不開放」者已剔除）。<br>
+    • <b>照片</b>：海岸線為官方照片（需連網顯示）；縱谷線官方未提供可嵌入照片，改放「📷 看照片」連到 Google 圖片。<br>
+    • <b>座標</b>：海岸線為官方精確座標；縱谷線部分為地標概略位置。<br>
+    • 大地藝術仍可能因天候隨時受損，出發前可對照官方即時地圖。綠島／蘭嶼的作品需搭船，未列入自駕路線。
+  </div>
+
+  <footer>
+    用 ♥ 為你的台東小旅行整理<br>
+    資料來源：<a href="https://www.eastcoast-nsa.gov.tw/teclandart/zh-tw/artwork/artwork-map" target="_blank">東海岸大地藝術節・作品地圖</a>　|　<a href="https://www.pioneeringeastriftvalleygranaryfestivities.com.tw/" target="_blank">縱谷大地藝術季・漂鳥197</a><br>
+    祝旅途順順、天氣晴晴 ☀️🚗💨
+  </footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// [name, artist, town, axis(C/V), lat, lng, imgId(null), year(null), isNew]
+const D = [
+["The Fifth Stage 第五階段","上野大作 Daisaku Ueno（日）","長濱鄉","C",23.3978,121.4776,"74905",null,false],
+["與金剛共舞","沙播兒‧拉告（林志強）","長濱鄉","C",23.3305,121.4514,"17144",null,false],
+["faki的背影","安聖惠（峨冷‧魯魯安）","長濱鄉・寧埔","C",23.2483,121.4180,"91195",2025,false],
+["Ｗadihan迴響","Sandor Zelenak","成功鎮","C",23.2079,121.3973,"91050",2025,false],
+["山海匿境","張國耀","成功鎮","C",23.1722,121.4020,"72822",null,false],
+["呼吸（Breath）","朴奉基 Bonggi Park（韓）","成功鎮","C",23.1557,121.3999,"92054",2026,true],
+["等待漲潮－阿公的魚簍","Apo’陳昭興 × 王亭婷","成功鎮","C",23.1279,121.4026,"30561",null,false],
+["溯土 Revert to Earth","葉海地 Heidi Yip（加）","池上鄉","V",23.1247,121.2197,null,2020,false],
+["在海與山之間－漂流神","杉原信幸 & 中村綾花（日）","成功鎮","C",23.1241,121.4044,"80051",null,false],
+["YANSHI 顏實","Olga Ziemska（波蘭裔美籍）","池上鄉・大坡池","V",23.1220,121.2180,null,2024,false],
+["滴落 Dripping","張國耀","成功鎮・都歷","C",23.1040,121.3850,"92053",2026,true],
+["DJ TIDE","安可 ANCO","池上鄉","V",23.1033,121.2208,null,2025,false],
+["自然療癒","撒部‧噶照","池上鄉","V",23.0955,121.2157,null,2019,false],
+["祈福 Pray For Blessings","范志明 × 邵惠琴","關山鎮","V",23.0685,121.1929,null,2025,false],
+["心之地 Heart Of Land","縱谷駐地創作","關山鎮","V",23.0675,121.1826,null,2023,false],
+["相聚","盂施甫","關山鎮・德高里","V",23.0600,121.1585,null,2024,false],
+["Cloudscape 雲景","Marco Cianfanelli（南非）","關山鎮・親水公園","V",23.0450,121.1620,null,2024,false],
+["山、陽光與蛇","縱谷駐地創作","關山鎮・親水公園","V",23.0404,121.1749,null,2023,false],
+["公元5390年的凝望","眼蟲計畫","成功鎮・都歷","C",23.0204,121.3251,"72427",null,false],
+["島嶼之影","拉黑子‧達立夫","成功鎮・都歷","C",23.0197,121.3263,"28064",null,false],
+["大尾巴與TATALA的千年之約","夏曼‧瑪德諾‧米斯卡","成功鎮・都歷","C",23.0189,121.3261,"74879",null,false],
+["電光牛","任大賢","關山鎮・電光","V",23.0080,121.1730,null,2019,false],
+["浸、境、靜、淨","尼誕‧達給伐歷","東河鄉","C",22.9759,121.3047,"92128",2026,true],
+["仰望星空 Stargazy pie","Better-ray","鹿野鄉","V",22.9165,121.1223,null,2025,false],
+["鹿 Lu","縱谷駐地創作","鹿野鄉","V",22.9160,121.1221,null,2023,false],
+["Misalemed 祝福","達鳳‧旮赫地","鹿野鄉","V",22.9079,121.1208,null,2022,false],
+["潮水坐下來了","希巨‧蘇飛 & Alvaro Trugeda","東河鄉・都蘭","C",22.8634,121.2063,"74873",null,false],
+["我在月光海 我很勇敢","哈拿‧葛琉","台東市","C",22.8613,121.2038,"72844",null,false],
+["月亮住在海裡","伊祐‧噶照","台東市・加路蘭","C",22.8067,121.1970,"72231",null,false]
+];
+
+const COAST="#3a9bd0", VALLEY="#7bb24a";
+const imgUrl = id => "https://www.eastcoast-nsa.gov.tw/teclandart/image/"+id+"/640x480";
+const navUrl = (la,ln) => "https://www.google.com/maps/search/?api=1&query="+la+","+ln;
+const picUrl = n => "https://www.google.com/search?tbm=isch&q="+encodeURIComponent(n+" 縱谷大地藝術季 台東");
+
+// ---- MAP ----
+const map = L.map('map',{scrollWheelZoom:false}).setView([23.05,121.30],10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+  maxZoom:18, attribution:'© OpenStreetMap'}).addTo(map);
+const bounds=[];
+D.forEach((w,i)=>{
+  const color = w[3]==="C"?COAST:VALLEY;
+  const icon = L.divIcon({html:`<div class="pin" style="background:${color}"><b>${i+1}</b></div>`,
+    iconSize:[28,28], iconAnchor:[14,28], popupAnchor:[0,-26]});
+  L.marker([w[4],w[5]],{icon}).addTo(map)
+   .bindPopup(`<b>${i+1}. ${w[0]}</b><br>${w[2]}　${w[3]==="C"?"🌊海岸":"🌾縱谷"}`);
+  bounds.push([w[4],w[5]]);
+});
+map.fitBounds(bounds,{padding:[30,30]});
+
+// ---- LIST ----
+const list = document.getElementById('list');
+list.innerHTML = D.map((w,i)=>{
+  const [n,a,town,axis,la,ln,img,yr,isNew]=w;
+  const color = axis==="C"?COAST:VALLEY;
+  const ph = img
+    ? `<div class="ph" style="background-image:url('${imgUrl(img)}')"></div>`
+    : `<div class="ph noimg"><span class="ico">🎨</span><a class="pbtn" href="${picUrl(n)}" target="_blank">📷 看照片</a></div>`;
+  return `<div class="card">
+    <div class="num" style="background:${color}">${i+1}</div>
+    ${ph}
+    <div class="body">
+      <div class="tags">
+        <span class="axis ${axis}">${axis==="C"?"🌊 海岸":"🌾 縱谷"}</span>
+        ${isNew?'<span class="new">✨ 2026新作</span>':''}
+        ${yr?`<span class="yr">${yr}</span>`:''}
+      </div>
+      <h3>${n}</h3>
+      <div class="art">${a}</div>
+      <div class="town">📍 ${town}</div>
+      <a class="nav" style="background:${color}" href="${navUrl(la,ln)}" target="_blank">🗺 導航</a>
+    </div>
+  </div>`;
+}).join('');
+</script>
+</body>
+</html>
